@@ -8,6 +8,9 @@ let PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+//establishing public directory
+app.use(express.static("public"))
+
 // get requests for starting HTML pages
 
 app.get("/notes", function(req, res){
