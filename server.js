@@ -25,17 +25,30 @@ app.get("/api/notes", function(req, res){
     })  
 });
 
-=
+
 app.post("/api/notes", function(req, res){
     //receive new note, add to db.json, return note to client
-    //let noteData = req.data;
-  //  console.log(noteData)
+    let newNote = req.body
+    console.log(newNote)
+    let dataTable;
 
+    //parse existing data, create table from data, then add new data to table
+    fs.readFile("./db/db.JSON", function(err, data){
+        if (err){
+            console.log(err)
+        }
+        else{
+            dataTable = JSON.parse(data)
+            dataTable.push(newNote)
+            console.log(dataTable)
+        }
+    })
+    //write new data to db file
 });
 
 
 app.delete("/api/notes/:id", function(req, res){
-    //receive query with ID, delete note with specific ID
+    //receive query with ID, delete note with specific ID (read db file, parse the table, remove it, rewrite db file    )
 });
 
 // get requests for starting HTML pages
