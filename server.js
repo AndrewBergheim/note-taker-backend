@@ -29,7 +29,7 @@ app.get("/api/notes", function(req, res){
 app.post("/api/notes", function(req, res){
     //receive new note, add to db.json, return note to client
     let newNote = req.body
-    console.log(newNote)
+    //console.log(newNote)
     let dataTable;
 
     //parse existing data, create table from data, then add new data to table
@@ -39,16 +39,43 @@ app.post("/api/notes", function(req, res){
         }
         else{
             dataTable = JSON.parse(data)
+            newNote.id = dataTable.length
             dataTable.push(newNote)
             console.log(dataTable)
+            //write new data to db file
+            fs.writeFile("./db/db.JSON", JSON.stringify(dataTable), function(err){
+                if (err){throw (err)}
+                else{
+                    console.log("successfully written to DB")
+                }
+            });
         }
     })
-    //write new data to db file
 });
 
 
 app.delete("/api/notes/:id", function(req, res){
-    //receive query with ID, delete note with specific ID (read db file, parse the table, remove it, rewrite db file    )
+    //receive query with ID, delete note with specific ID (read db file, parse the table, remove it, rewrite db file)
+    //console.log(req.params.id)
+    let toDel = req.params.id;
+    let dataTable;
+    fs.readFile("./db/db.JSON", function(err, data){
+        if (err){
+            console.log(err)
+        }
+        else{
+            dataTable = JSON.parse(data)
+            dataTable.splice(toDel,1)
+            console.log(dataTable)
+            //write new data to db file
+            fs.writeFile("./db/db.JSON", JSON.stringify(dataTable), function(err){
+                if (err){throw (err)}
+                else{
+                    console.log("successfully written to DB")
+                }
+            });
+        }
+    })
 });
 
 // get requests for starting HTML pages
