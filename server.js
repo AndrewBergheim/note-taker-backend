@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs")
 // establishing express and port number
 let app = express();
-let PORT = 8080;
+let PORT = process.env.PORT || 8080;
 
 // set server up to use express and handle post requests
 app.use(express.json());
