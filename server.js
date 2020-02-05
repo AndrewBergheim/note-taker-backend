@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"))
 
 
-app.get("/api/notes", function(req, res){
+app.get("./api/notes", function(req, res){
     let dbParsed;
     //read db.json, return JSON of saved notes 
     fs.readFile("./db/db.JSON",function(err, data){
@@ -26,7 +26,7 @@ app.get("/api/notes", function(req, res){
 });
 
 
-app.post("/api/notes", function(req, res){
+app.post("./api/notes", function(req, res){
     //receive new note, add to db.json, return note to client
     let newNote = req.body
     //console.log(newNote)
@@ -54,7 +54,7 @@ app.post("/api/notes", function(req, res){
 });
 
 
-app.delete("/api/notes/:id", function(req, res){
+app.delete("./api/notes/:id", function(req, res){
     //receive query with ID, delete note with specific ID (read db file, parse the table, remove it, rewrite db file)
     //console.log(req.params.id)
     let toDel = req.params.id;
