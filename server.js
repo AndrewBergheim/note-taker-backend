@@ -16,11 +16,17 @@ app.use(express.static("public"))
 app.get("/api/notes", function(req, res){
     let dbParsed;
     //read db.json, return JSON of saved notes 
-    fs.readFile("./db/db.JSON",function(err, data){
+    fs.readFile(path.join(__dirname +"/db/db.JSON"),function(err, data){
         if (err){
             console.log(err)
         }else{
-            return res.json(JSON.parse(data))
+            if(data){
+                return res.json(JSON.parse(data))
+            }
+            else{
+                return res.json([])
+            }
+            
         }
     })  
 });
@@ -33,7 +39,7 @@ app.post("/api/notes", function(req, res){
     let dataTable;
 
     //parse existing data, create table from data, then add new data to table
-    fs.readFile("./db/db.JSON", function(err, data){
+    fs.readFile(path.join(__dirname + "/db/db.JSON"), function(err, data){
         if (err){
             console.log(err)
         }
@@ -43,13 +49,11 @@ app.post("/api/notes", function(req, res){
             dataTable.push(newNote)
             console.log(dataTable)
             //write new data to db file
-            fs.writeFile("./db/db.JSON", JSON.stringify(dataTable), function(err){
+            fs.writeFile(path.join(__dirname + "/db/db.JSON"), JSON.stringify(dataTable), function(err){
                 if (err){throw (err)}
                 else{
                     console.log("successfully written to DB")
                 }
-            }).then(()=>{
-                res.send("")
             })
         }
     })
@@ -61,7 +65,7 @@ app.delete("/api/notes/:id", function(req, res){
     //console.log(req.params.id)
     let toDel = req.params.id;
     let dataTable;
-    fs.readFile("./db/db.JSON", function(err, data){
+    fs.readFile(path.join(__dirname + "/db/db.JSON"), function(err, data){
         if (err){
             console.log(err)
         }
@@ -70,7 +74,7 @@ app.delete("/api/notes/:id", function(req, res){
             dataTable.splice(toDel,1)
             console.log(dataTable)
             //write new data to db file
-            fs.writeFile("./db/db.JSON", JSON.stringify(dataTable), function(err){
+            fs.writeFile(path.join(__dirname + "/db/db.JSON"), JSON.stringify(dataTable), function(err){
                 if (err){throw (err)}
                 else{
                     console.log("successfully written to DB")
