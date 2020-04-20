@@ -48,7 +48,9 @@ app.post("/api/notes", function(req, res){
                 else{
                     console.log("successfully written to DB")
                 }
-            });
+            }).then(()=>{
+                res.send("")
+            })
         }
     })
 });

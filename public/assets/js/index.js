@@ -1,3 +1,4 @@
+$(document).ready( () => {
 var $noteTitle = $(".note-title");
 var $noteText = $(".note-textarea");
 var $saveNoteBtn = $(".save-note");
@@ -17,11 +18,11 @@ var getNotes = function() {
 
 // A function for saving a note to the db
 var saveNote = function(note) {
-  return $.ajax({
+  $.ajax({
     url: "/api/notes",
     data: note,
     method: "POST"
-  });
+  }).then(location.reload());
 };
 
 // A function for deleting a note from the db
@@ -142,3 +143,4 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+});
