@@ -63,9 +63,9 @@ app.post("/api/notes", function(req, res){
 app.delete("/api/notes/:id", function(req, res){
     //receive query with ID, delete note with specific ID (read db file, parse the table, remove it, rewrite db file)
     //console.log(req.params.id)
-    let toDel = req.params.id;
+    let toDel = req.params.id - 1;
     let dataTable;
-    fs.readFile(path.join(__dirname + "/db/db.JSON"), function(err, data){
+    fs.readFile(path.join(__dirname, "/db/db.JSON"), function(err, data){
         if (err){
             console.log(err)
         }
@@ -74,7 +74,7 @@ app.delete("/api/notes/:id", function(req, res){
             dataTable.splice(toDel,1)
             console.log(dataTable)
             //write new data to db file
-            fs.writeFile(path.join(__dirname + "/db/db.JSON"), JSON.stringify(dataTable), function(err){
+            fs.writeFile(path.join(__dirname, "/db/db.JSON"), JSON.stringify(dataTable), function(err){
                 if (err){throw (err)}
                 else{
                     console.log("successfully written to DB")
@@ -87,12 +87,12 @@ app.delete("/api/notes/:id", function(req, res){
 // get requests for starting HTML pages
 
 app.get("/notes", function(req, res){
-    res.sendFile(path.join(__dirname + "/public/notes.html"));
+    res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 
 app.get("/*", function(req, res){
-    res.sendFile(path.join(__dirname + "/public/index.html"));
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 

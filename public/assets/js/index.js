@@ -30,7 +30,7 @@ var deleteNote = function(id) {
   return $.ajax({
     url: "api/notes/" + id,
     method: "DELETE"
-  });
+  }).then(location.reload());
 };
 
 // If there is an activeNote, display it, otherwise render empty inputs
